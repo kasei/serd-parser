@@ -1,4 +1,4 @@
-SerdParser
+serd-parser
 ===
 
 This is an example project to show the use of the

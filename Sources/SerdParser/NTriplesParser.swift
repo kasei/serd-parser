@@ -9,13 +9,13 @@
 import Darwin.C
 import serd
 
-enum RDFTerm : CustomStringConvertible {
+public enum RDFTerm : CustomStringConvertible {
     case iri(String)
     case blank(String)
     case language(String, String)
     case datatype(String, String)
     
-    var description : String {
+    public var description : String {
         switch self {
         case .iri(let s):
             return "<\(s)>"
@@ -37,7 +37,9 @@ extension SerdNode {
     }
 }
 
-class NTriplesParser {
+public class NTriplesParser {
+	public init() {}
+	
     fileprivate static func node_as_term(node : SerdNode, datatype : String?, language : String?) -> RDFTerm {
         switch node.type {
         case SERD_URI:

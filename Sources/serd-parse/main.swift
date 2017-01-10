@@ -1,4 +1,5 @@
 import Foundation
+import SerdParser
 
 guard CommandLine.arguments.count == 2 else {
     let info = ProcessInfo.processInfo

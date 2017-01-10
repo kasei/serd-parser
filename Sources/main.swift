@@ -14,5 +14,3 @@ p.parse(file: filename) { (s, p, o) in
     print("\(s) \(p) \(o)")
 }
 print("\(count) triples parsed")
-
-

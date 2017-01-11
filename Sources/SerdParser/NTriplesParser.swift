@@ -16,6 +16,9 @@ public enum RDFTerm : CustomStringConvertible {
     case datatype(String, String)
     
     public var description : String {
+        // NOTE: While these are N-Triples-like, no escaping occurs here,
+        //       and may lead to invalid data if you attempt to use them
+        //       as actual N-Triples data.
         switch self {
         case .iri(let s):
             return "<\(s)>"
@@ -31,7 +34,7 @@ public enum RDFTerm : CustomStringConvertible {
     }
 }
 
-extension SerdNode {
+fileprivate extension SerdNode {
     var value : String {
         return String(cString: self.buf)
     }
@@ -53,7 +56,8 @@ public class NTriplesParser {
                 return .datatype(node.value, datatype ?? "http://www.w3.org/2001/XMLSchema#string")
             }
         default:
-            fatalError("\(node.type)")
+            // We assume the data being parsed is N-Triples, so we should never see a CURIE
+            fatalError("Unexpected SerdNode type: \(node.type)")
         }
     }
     

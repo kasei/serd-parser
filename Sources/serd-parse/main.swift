@@ -8,9 +8,9 @@ guard CommandLine.arguments.count == 2 else {
 }
 
 let filename = CommandLine.arguments[1]
-let p = NTriplesParser()
+let parser = NTriplesParser()
 var count = 0
-p.parse(file: filename) { (s, p, o) in
+parser.parse(file: filename) { (s, p, o) in
     count += 1
     print("\(s) \(p) \(o) .")
 }

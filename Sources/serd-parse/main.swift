@@ -8,10 +8,8 @@ guard CommandLine.arguments.count == 2 else {
 }
 
 let filename = CommandLine.arguments[1]
-let parser = NTriplesParser()
-var count = 0
-parser.parse(file: filename) { (s, p, o) in
-    count += 1
+let parser = SerdParser()
+let count = try parser.parse(file: filename) { (s, p, o) in
     print("\(s) \(p) \(o) .")
 }
 print("# \(count) triples parsed")

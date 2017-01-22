@@ -90,12 +90,13 @@ public class SerdParser {
     }
     
     var inputSyntax: RDFSyntax
-    
-    public init(syntax: RDFSyntax = .turtle) {
+    var defaultBase: String
+    public init(syntax: RDFSyntax = .turtle, base defaultBase: String = "http://base.example.org/") {
         self.inputSyntax = syntax
+        self.defaultBase = defaultBase
     }
     
-    fileprivate static func node_as_term(env: OpaquePointer?, node: SerdNode, datatype: String?, language: String?) throws -> RDFTerm {
+    private static func node_as_term(env: OpaquePointer?, node: SerdNode, datatype: String?, language: String?) throws -> RDFTerm {
         switch node.type {
         case SERD_URI:
             var base_uri = SERD_URI_NULL
@@ -141,7 +142,7 @@ public class SerdParser {
         var base = SERD_NODE_NULL
         
         guard let env = serd_env_new(&base) else { throw SerdParserError.internalError("Failed to construct parser context") }
-        base = serd_node_new_uri_from_string("http://base.example.org/", nil, &baseUri)
+        base = serd_node_new_uri_from_string(defaultBase, nil, &baseUri)
         
         var context = ParserContext(env: env, handler: handleTriple)
         withUnsafePointer(to: &context) { (ctx) -> Void in

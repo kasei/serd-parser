@@ -10,86 +10,26 @@
 
 import serd
 
-public enum SerdParserError : Error {
-    case parseError(String)
-    case internalError(String)
-}
-
-public enum RDFSyntax {
-    case ntriples
-    case turtle
-    
-    var serdSyntax : SerdSyntax {
-        switch self {
-        case .ntriples:
-            return SERD_NTRIPLES
-        case .turtle:
-            return SERD_TURTLE
-        }
-    }
-}
-
-fileprivate extension SerdURI {
-    var value : String {
-        var value = ""
-        value += self.scheme.value
-        value += "://"
-        value += self.authority.value
-        value += self.path_base.value
-        value += self.path.value
-        let query = self.query.value
-        if query.characters.count > 0 {
-            value += "?"
-            value += self.query.value
-        }
-        value += self.fragment.value
-        return value
-    }
-}
-
-fileprivate extension SerdChunk {
-    var value : String {
-        if let buf = self.buf {
-            let len = self.len
-            let value = String(cString: buf)
-            if value.utf8.count != len {
-                let bytes = value.utf8.prefix(len)
-                if let string = String(bytes) {
-                    return string
-                } else {
-                    fatalError()
-                }
-            } else {
-                return value
-            }
-        } else {
-            return ""
-        }
-    }
-}
-
-fileprivate extension SerdNode {
-    var value : String {
-        if let buf = self.buf {
-            let len = self.n_bytes
-            let value = String(cString: buf)
-            if value.utf8.count != len {
-                let bytes = value.utf8.prefix(len)
-                if let string = String(bytes) {
-                    return string
-                } else {
-                    fatalError()
-                }
-            } else {
-                return value
-            }
-        } else {
-            return ""
-        }
-    }
-}
-
 public class SerdParser {
+    public enum RDFSyntax {
+        case ntriples
+        case turtle
+        
+        var serdSyntax : SerdSyntax {
+            switch self {
+            case .ntriples:
+                return SERD_NTRIPLES
+            case .turtle:
+                return SERD_TURTLE
+            }
+        }
+    }
+
+    public enum SerdParserError : Error {
+        case parseError(String)
+        case internalError(String)
+    }
+
     public typealias TripleHandler = (RDFTerm, RDFTerm, RDFTerm) -> Void
     private class ParserContext {
         var count: Int
@@ -255,3 +195,64 @@ public class SerdParser {
         return context.count
     }
 }
+
+fileprivate extension SerdURI {
+    var value : String {
+        var value = ""
+        value += self.scheme.value
+        value += "://"
+        value += self.authority.value
+        value += self.path_base.value
+        value += self.path.value
+        let query = self.query.value
+        if query.characters.count > 0 {
+            value += "?"
+            value += self.query.value
+        }
+        value += self.fragment.value
+        return value
+    }
+}
+
+fileprivate extension SerdChunk {
+    var value : String {
+        if let buf = self.buf {
+            let len = self.len
+            let value = String(cString: buf)
+            if value.utf8.count != len {
+                let bytes = value.utf8.prefix(len)
+                if let string = String(bytes) {
+                    return string
+                } else {
+                    fatalError()
+                }
+            } else {
+                return value
+            }
+        } else {
+            return ""
+        }
+    }
+}
+
+fileprivate extension SerdNode {
+    var value : String {
+        if let buf = self.buf {
+            let len = self.n_bytes
+            let value = String(cString: buf)
+            if value.utf8.count != len {
+                let bytes = value.utf8.prefix(len)
+                if let string = String(bytes) {
+                    return string
+                } else {
+                    fatalError()
+                }
+            } else {
+                return value
+            }
+        } else {
+            return ""
+        }
+    }
+}
+

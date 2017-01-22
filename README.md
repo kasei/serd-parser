@@ -20,6 +20,8 @@ From the command line:
 
 Or, programatically:
 
+    import SerdParser
+    
     // extract all foaf:name triples
     let parser = SerdParser()
     let count = try parser.parse(file: filename) { (s, p, o) in

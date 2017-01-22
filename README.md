@@ -27,4 +27,4 @@ Or, programatically:
             print("\(s) has name \(o) .")
         }
     }
-    print("\(count) names found")
+    print("\(count) triples processed")

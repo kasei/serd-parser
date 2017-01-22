@@ -5,6 +5,8 @@ This is an example project to show the use of the
 [Serd RDF library](http://drobilla.net/software/serd)
 to parse N-Triples data in Swift.
 
+From the command line:
+
     % swift build
     % ./.build/debug/serd-parse foaf.ttl
     <http://kasei.us/about/#greg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
@@ -15,3 +17,14 @@ to parse N-Triples data in Swift.
     <http://kasei.us/about/#greg> <http://xmlns.com/foaf/0.1/homepage> <http://kasei.us/> .
     <http://kasei.us/about/#greg> <http://xmlns.com/foaf/0.1/img> <http://kasei.us/images/greg.png> .
     ...
+
+Or, programatically:
+
+    // extract all foaf:name triples
+    let parser = SerdParser()
+    let count = try parser.parse(file: filename) { (s, p, o) in
+        if case .iri("http://xmlns.com/foaf/0.1/name") = p {
+            print("\(s) has name \(o) .")
+        }
+    }
+    print("\(count) names found")

@@ -33,8 +33,7 @@ fileprivate extension SerdURI {
     var value : String {
         var value = ""
         value += self.scheme.value
-        value += ":"
-        value += "//"
+        value += "://"
         value += self.authority.value
         value += self.path_base.value
         value += self.path.value

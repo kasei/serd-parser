@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Cserd",
+        "repositoryURL": "https://github.com/kasei/swift-serd.git",
+        "state": {
+          "branch": null,
+          "revision": "437506d3a0a1e960f7c6fcbf3e51fda84d65c4ec",
+          "version": "0.0.4"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

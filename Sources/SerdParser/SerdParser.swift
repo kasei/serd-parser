@@ -85,7 +85,7 @@ public class SerdParser {
     let end_sink : @convention(c) (UnsafeMutableRawPointer?, UnsafePointer<SerdNode>?) -> SerdStatus = { (handle, node) -> SerdStatus in return SERD_SUCCESS }
     
     let error_sink : @convention(c) (UnsafeMutableRawPointer?, UnsafePointer<SerdError>?) -> SerdStatus = { (reader, error) in
-        print("error: \(error)")
+        print("error: \(String(describing: error))")
         return SERD_SUCCESS
     }
     
@@ -206,7 +206,7 @@ fileprivate extension SerdURI {
         value += self.path_base.value
         value += self.path.value
         let query = self.query.value
-        if query.characters.count > 0 {
+        if query.count > 0 {
             value += "?"
             value += self.query.value
         }
